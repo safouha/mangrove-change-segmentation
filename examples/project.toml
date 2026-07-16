@@ -1,0 +1,46 @@
+[project]
+seed = 42
+
+[data]
+# Paths are resolved relative to this file.
+embeddings_root = "../data/embeddings"
+labels_root = "../data/labels"
+tiles_root = "../workspace/tiles"
+artifacts_root = "../workspace/artifacts"
+regions = ["region-a", "region-b", "region-c", "region-d", "region-e"]
+years = [2017, 2018, 2019, 2020]
+channels = 64
+tile_size = 128
+train_stride = 64
+evaluation_stride = 128
+minimum_positive_fraction = 0.001
+maximum_negative_tiles_per_region = 50000
+
+[split]
+# "hash" is deterministic and independent of list order. For a frozen manual
+# split, use mode = "explicit" and populate the three region arrays below.
+mode = "hash"
+validation_fraction = 0.2
+test_fraction = 0.2
+train_regions = []
+validation_regions = []
+test_regions = []
+
+[model]
+filters = [64, 128, 256, 512]
+dropout = 0.1
+normalization = "batch"
+se_reduction = 16
+deep_supervision = true
+
+[training]
+batch_size = 16
+epochs = 50
+learning_rate = 0.0001
+weight_decay = 0.0001
+clipnorm = 1.0
+focal_gamma = 2.0
+focal_alpha = 0.8
+loss = "focal_dice"
+early_stopping_patience = 10
+reduce_lr_patience = 5
